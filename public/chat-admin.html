@@ -61,6 +61,8 @@
   <div class="container container-general-chat" >
 
                 <div class="container container-message">  
+                    <div id="chatList">AQUI VAN LOS CHATS</div>
+
                     <div id="conversation"></div>
                 </div>
 
@@ -119,9 +121,11 @@ const auth = getAuth(app);
 const conversation = document.getElementById('conversation');
 const chatForm = document.getElementById("chat-form");
 const chatTextarea = document.getElementById('text-message');
+const chatList = document.getElementById('chatList');
 
 // Función para mostrar los mensajes
 function displayMessages(messages) {
+    // console.log(messages);
     conversation.innerHTML = ''; // Limpiamos el área de conversación antes de mostrar los mensajes
     Object.values(messages).forEach(message => {
         conversation.innerHTML += `
@@ -136,20 +140,39 @@ function displayMessages(messages) {
 // Escuchamos cambios en los mensajes cuando el usuario inicia sesión
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        const messagesRef = ref(db, 'messages');
+        // console.log('Hay usuario autenticado');
+        const messagesRef = ref(db, '/chats');
+        const messagesQuery = query(messagesRef, orderByChild('userId'));
+        let idUsers = [];
+        // console.log(messagesQuery);
 
-        onValue(messagesRef, (snapshot) => {
-            if (snapshot.exists()) {
+        onValue(messagesQuery, (snapshot) => {
+            // if (snapshot.exists()) {
+                chatList.innerHTML = '';
                 const messages = snapshot.val();
-                displayMessages(messages);
-            }
+                console.log(messages);
+                for (const message in messages) {
+                    console.log(message);
+                    // console.log(message.userId);
+                    let div = document.createElement('div');
+                    div.innerHTML = message;
+                    chatList.appendChild(div);
+
+                    // if (!idUsers.includes(messages[message].userId)) {
+                    //     idUsers.push(messages[message].userId);
+                    // }
+                }
         });
+
+
     } else {
         console.log('No hay usuario autenticado');
         // Podrías redirigirlo a una página de inicio de sesión, por ejemplo
         // window.location.href = "/login.html";
     }
 });
+
+
 
 // Manejamos el envío de mensajes
 chatForm.addEventListener('submit', function (e) {
