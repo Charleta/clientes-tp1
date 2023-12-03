@@ -249,7 +249,17 @@ margin-top: 5px;
   height: 100%;
   overflow-y: auto;
 }
+#conversation > div{
+  margin: 10px 0;
+}
 
-#conversation > div {
-  text-align: right; 
+#conversation > div p{
+  /* text-align: right;  */
+  margin: 0;
+  padding: 0;
+}
+
+
+.message-txt.recibido{
+  text-align: left ;
 }

@@ -124,14 +124,17 @@ const chatTextarea = document.getElementById('text-message');
 const chatList = document.getElementById('chatList');
 
 // Función para mostrar los mensajes
-function displayMessages(messages) {
+function displayMessages(messages, actualId) {
     // console.log(messages);
     conversation.innerHTML = ''; // Limpiamos el área de conversación antes de mostrar los mensajes
     Object.values(messages).forEach(message => {
+
+        let clase = actualId === message.userId ? 'enviado' : 'recibido';
+
         conversation.innerHTML += `
-            <div class="message-txt">
-                <p>Usuario ID: ${message.userId}</p>
-                <p>Mensaje: ${message.message}</p>
+            <div class="message-txt ${clase}">
+                <p>Usuario: ${message.userId}</p>
+                <p>Dice: ${message.message}</p>
             </div>
         `;
     });
@@ -143,7 +146,10 @@ onAuthStateChanged(auth, (user) => {
         // console.log('Hay usuario autenticado');
         const messagesRef = ref(db, '/chats');
         const messagesQuery = query(messagesRef, orderByChild('userId'));
-        let idUsers = [];
+        // let idUsers = [];
+
+        let usuarioActual = user.uid;
+        // console.log('user', usuarioActual);
         // console.log(messagesQuery);
 
         onValue(messagesQuery, (snapshot) => {
@@ -158,6 +164,12 @@ onAuthStateChanged(auth, (user) => {
                     div.innerHTML = message;
                     chatList.appendChild(div);
 
+                    div.addEventListener('click', () => {
+                        getChatMessagesFromId(message);
+                    });
+
+                    
+
                     // if (!idUsers.includes(messages[message].userId)) {
                     //     idUsers.push(messages[message].userId);
                     // }
@@ -171,6 +183,26 @@ onAuthStateChanged(auth, (user) => {
         // window.location.href = "/login.html";
     }
 });
+
+
+
+async function getChatMessagesFromId(uid){
+    const messagesRef = ref(db, `/chats/${uid}`);
+    const messagesQuery = query(messagesRef, orderByChild('timestamp'));
+    // console.log(messagesQuery);
+    
+    onValue(messagesQuery, (snapshot) => {
+
+        // console.log(snapshot);
+        if (snapshot.exists()) {
+            const messages = snapshot.val();
+            displayMessages(messages);
+        } else {
+            console.log('No hay mensajes');
+        }
+    });
+}
+
 
 
 
