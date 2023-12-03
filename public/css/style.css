@@ -1,0 +1,255 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@600&family=Martian+Mono:wght@200;300;600&family=Merriweather:wght@300&family=Rubik:wght@500;700&display=swap');
+
+
+
+body{
+
+    background-color: #313639 ;
+    font-family: 'Merriweather';
+    color: white;
+  }
+
+  
+  .navbar{
+    color: white !important;
+    background-color:#fe335c ;
+    margin-bottom: 100px;
+    
+  }
+   ul li a {
+    color: white!important;
+    margin-left: 50px;
+    font-weight: bold !important;
+  }
+
+  header a span{
+    color:white !important
+  }
+
+  .btn-index{
+
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+
+  .btn {
+    min-width: 250px;
+    height: 50px;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    background: #fe335c;
+    box-shadow: 0 5px #e90331;
+    font-size: 26px;
+    
+  }
+  .btn:hover {
+    box-shadow: 0 3px #e90331;
+    top: 1px;
+    background-color: #e90331;
+    color: #fff;
+  }
+  .btn:active {
+    box-shadow: 0 0 #e90331;
+    top: 5px;
+    
+  }
+
+
+  .img-ceviche{
+
+    border-radius: 20px !important;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.container-index-downbtn{
+
+ margin-top: 75px;
+ text-align: center;
+}
+
+#footer{
+  background-color:#fe335c;
+}
+
+
+.card{
+
+background-color: #3d484e;
+margin: auto;
+box-shadow: rgba(250, 250, 250, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+#card-container{
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.card-body h5{
+
+  color:white
+}
+ .card-text {
+  
+  color:white;
+}
+
+.btn-card-body {
+  min-width: 100px;
+  height: 30px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  background: #fe335c;
+  box-shadow: 0 5px #e90331;
+  font-size: 18px;
+  
+}
+.btn-card-body:hover {
+  box-shadow: 0 3px #e90331;
+  top: 1px;
+  background-color: #e90331;
+  color: #fff;
+}
+.btn-card-body:active {
+  box-shadow: 0 0 #e90331;
+  top: 5px;
+  
+}
+
+.div-index-register{
+
+  background-color: #d3d3d3;
+margin: auto;
+box-shadow: rgba(250, 250, 250, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+border-radius: 35px;
+margin-bottom: 50px;
+color: black;
+}
+
+
+.btn-login {
+  min-width: 250px;
+  height: 50px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  background: #fe335c;
+  box-shadow: 0 5px #e90331;
+  font-size: 26px;
+  
+}
+.btn-login:hover {
+  box-shadow: 0 3px #e90331;
+  top: 1px;
+  background-color: #e90331;
+  color: #fff;
+}
+.btn-login:active {
+  box-shadow: 0 0 #e90331;
+  top: 5px;
+  
+}
+
+.div-login {
+
+
+  margin-top: 50px;
+  margin-bottom: 150px;
+}
+
+.container-general-chat{
+
+  width: 600px;
+  margin-bottom: 150px;
+}
+
+.container-message{
+  border-radius:25px;
+  background-color: #3d484e;
+  height: 500px;
+  margin-top: 25px;
+  color: white; 
+  padding: 20px;
+}
+
+
+
+.btn-send-chat {
+  width: 100px;
+  height: 45px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border: none;
+  background: #fe335c;
+  box-shadow: 0 5px #e90331;
+  font-size: 26px;
+  
+}
+.btn-send-chat:hover {
+  box-shadow: 0 3px #e90331;
+  top: 1px;
+  background-color: #e90331;
+  color: #fff;
+}
+.btn-send-chat:active {
+  box-shadow: 0 0 #e90331;
+  top: 5px;
+  
+}
+
+#text-message{
+  width: 500px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  height: 50px;
+  padding: 10px;
+}
+
+#chat-form{
+  display: flex;
+margin-top: 5px;
+}
+
+#conversation {
+  display: grid;
+  grid-auto-rows: min-content;
+  row-gap: 10px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+#conversation > div {
+  text-align: right; 
+}
