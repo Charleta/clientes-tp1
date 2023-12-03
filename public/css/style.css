@@ -263,3 +263,7 @@ margin-top: 5px;
 .message-txt.recibido{
   text-align: left ;
 }
+
+.message-txt.enviado{
+  text-align: right ;
+}

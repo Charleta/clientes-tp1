@@ -59,9 +59,9 @@
   </div>
 
   <div class="container container-general-chat" >
+      <div id="chatList">AQUI VAN LOS CHATS</div>
 
                 <div class="container container-message">  
-                    <div id="chatList">AQUI VAN LOS CHATS</div>
 
                     <div id="conversation"></div>
                 </div>
@@ -123,13 +123,22 @@ const chatForm = document.getElementById("chat-form");
 const chatTextarea = document.getElementById('text-message');
 const chatList = document.getElementById('chatList');
 
+chatForm.style.display = 'none';
+
 // Función para mostrar los mensajes
-function displayMessages(messages, actualId) {
+function displayMessages(messages) {
     // console.log(messages);
+    let actualId = auth.currentUser.uid;
     conversation.innerHTML = ''; // Limpiamos el área de conversación antes de mostrar los mensajes
     Object.values(messages).forEach(message => {
 
-        let clase = actualId === message.userId ? 'enviado' : 'recibido';
+        let clase = '';
+        if (actualId == message.userId) {
+            clase = 'enviado';
+        } else {
+            clase = 'recibido';
+        }
+        // actualId == message.userId ? 'enviado' : 'recibido';
 
         conversation.innerHTML += `
             <div class="message-txt ${clase}">
@@ -138,6 +147,7 @@ function displayMessages(messages, actualId) {
             </div>
         `;
     });
+    chatForm.style.display = 'flex';
 }
 
 // Escuchamos cambios en los mensajes cuando el usuario inicia sesión
@@ -166,7 +176,9 @@ onAuthStateChanged(auth, (user) => {
 
                     div.addEventListener('click', () => {
                         getChatMessagesFromId(message);
+                        enviarMensaje(chatForm, message);
                     });
+
 
                     
 
@@ -205,31 +217,34 @@ async function getChatMessagesFromId(uid){
 
 
 
+function enviarMensaje(formulario, uid){
 
-// Manejamos el envío de mensajes
-chatForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const user = auth.currentUser;
-    if (user) {
-        const message = chatTextarea.value.trim();
-
-        if (message !== '') {
-            const messagesRef = ref(db, 'messages');
-            push(messagesRef, {
-                userId: user.uid,
-                message: message,
-                createdAt: new Date().toISOString() // Podrías utilizar otro formato de fecha si lo prefieres
-            });
-
-            chatTextarea.value = ''; // Limpiamos el área del mensaje después de enviarlo
+    // Manejamos el envío de mensajes
+    formulario.addEventListener('submit', function (e) {
+        e.preventDefault();
+    
+        const user = auth.currentUser;
+        if (user) {
+            const message = chatTextarea.value.trim();
+    
+            if (message !== '') {
+                const messagesRef = ref(db, `/chats/${uid}`);
+                push(messagesRef, {
+                    userId: user.uid,
+                    message: message,
+                    creatAt: new Date().toISOString() // Podrías utilizar otro formato de fecha si lo prefieres
+                });
+    
+                chatTextarea.value = ''; // Limpiamos el área del mensaje después de enviarlo
+            }
+        } else {
+            console.log('No hay usuario autenticado');
+            // Manejar el caso cuando el usuario no está autenticado
+            // window.location.href = "/login.html";
         }
-    } else {
-        console.log('No hay usuario autenticado');
-        // Manejar el caso cuando el usuario no está autenticado
-        // window.location.href = "/login.html";
-    }
-});
+    });
+}
+
 
 
 </script>
