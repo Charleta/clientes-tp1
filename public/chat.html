@@ -111,12 +111,62 @@ import {
   getDatabase, 
   ref, 
   set, 
-  push
+  push,
+  query,
+  orderByChild,
+  equalTo,
+  onValue,
   
   } from 'https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js';
 
 const db = getDatabase(app);
 const auth = getAuth(app);
+
+const conversation = document.getElementById('conversation');
+const form = document.getElementById("chat-form");
+
+
+function displayMessages(messages) {
+    // console.log(messages);
+    let actualId = auth.currentUser.uid;
+    conversation.innerHTML = ''; // Limpiamos el área de conversación antes de mostrar los mensajes
+    Object.values(messages).forEach(message => {
+
+        let clase = '';
+        if (actualId == message.userId) {
+            clase = 'enviado';
+        } else {
+            clase = 'recibido';
+        }
+        // actualId == message.userId ? 'enviado' : 'recibido';
+
+        conversation.innerHTML += `
+            <div class="message-txt ${clase}">
+                <p>Usuario: ${message.userId}</p>
+                <p>Dice: ${message.message}</p>
+            </div>
+        `;
+    });
+    // chatForm.style.display = 'flex'; 
+}
+
+async function getChatMessagesFromId(uid){
+    const messagesRef = ref(db, `/chats/${uid}`);
+    const messagesQuery = query(messagesRef, orderByChild('timestamp'));
+    // console.log(messagesQuery);
+    
+    onValue(messagesQuery, (snapshot) => {
+
+        // console.log(snapshot);
+        if (snapshot.exists()) {
+            const messages = snapshot.val();
+            displayMessages(messages);
+        } else {
+            console.log('No hay mensajes');
+        }
+    });
+}
+
 
 
 
@@ -126,14 +176,29 @@ onAuthStateChanged (auth , (user) =>{
 
         const uid = user.uid;
         console.log(user)
-        const conversation = document.getElementById('conversation');
-        const form = document.getElementById("chat-form");
         const input = form.message;
+        const collectionReal =ref(db, `/chats/${uid}`);
+
+
+        getChatMessagesFromId(uid);
+    // onValue(messagesQuery, (snapshot) => {
+
+    //     // console.log(snapshot);
+    //     if (snapshot.exists()) {
+    //         const messages = snapshot.val();
+    //         displayMessages(messages, conversation);
+    //     } else {
+    //         console.log('No hay mensajes');
+    //     }
+    // });
+
+
+
+
 
         form.addEventListener('submit', function (e) {
             e.preventDefault()
 
-            const collectionReal =(ref(db, 'chats/' + uid));
 
             const newMessage = push(collectionReal);
 
