@@ -130,7 +130,7 @@ const form = document.getElementById("chat-form");
 
 function displayMessages(messages) {
     // console.log(messages);
-    let actualId = auth.currentUser.uid;
+    let actualId = auth.currentUser.email;
     // console.log(actualId)
     conversation.innerHTML = ''; // Limpiamos el área de conversación antes de mostrar los mensajes
     Object.values(messages).forEach(message => {

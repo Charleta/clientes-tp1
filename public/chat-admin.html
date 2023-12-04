@@ -116,6 +116,14 @@ import {
     onValue 
 } from 'https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js';
 
+
+import { 
+    getFirestore, 
+    doc, 
+    getDoc 
+} from 'https://www.gstatic.com/firebasejs/10.3.0/firebase-firestore.js';
+
+const dbfirestore = getFirestore(app);
 const db = getDatabase(app);
 const auth = getAuth(app);
 const conversation = document.getElementById('conversation');
@@ -128,10 +136,10 @@ chatForm.style.display = 'none';
 // Función para mostrar los mensajes
 function displayMessages(messages) {
     // console.log(messages);
-    let actualId = auth.currentUser.uid;
+    let actualId = auth.currentUser.email;
     conversation.innerHTML = ''; // Limpiamos el área de conversación antes de mostrar los mensajes
     Object.values(messages).forEach(message => {
-
+// console.log(message.userId)
         let clase = '';
         if (actualId == message.userId) {
             clase = 'enviado';
@@ -162,16 +170,16 @@ onAuthStateChanged(auth, (user) => {
         // console.log('user', usuarioActual);
         // console.log(messagesQuery);
 
-        onValue(messagesQuery, (snapshot) => {
+        onValue(messagesQuery,async (snapshot) => {
             // if (snapshot.exists()) {
                 chatList.innerHTML = '';
                 const messages = snapshot.val();
-                console.log(messages);
+                
                 for (const message in messages) {
-                    console.log(message);
+                    // console.log(message);
                     // console.log(message.userId);
                     let div = document.createElement('div');
-                    div.innerHTML = message;
+                    div.innerHTML =await getName(message);
                     chatList.appendChild(div);
 
                     div.addEventListener('click', () => {
@@ -245,6 +253,17 @@ function enviarMensaje(formulario, uid){
     });
 }
 
+async function getName(id) {
+    const docRef = doc(dbfirestore, "roles_by_user", id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        const {name, lastname, email} = docSnap.data();
+        return name;
+    } else {
+        console.log("No existe");
+    }
+}
 
 
 </script>
