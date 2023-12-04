@@ -119,6 +119,8 @@ import {
   
   } from 'https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js';
 
+
+  
 const db = getDatabase(app);
 const auth = getAuth(app);
 
@@ -129,6 +131,7 @@ const form = document.getElementById("chat-form");
 function displayMessages(messages) {
     // console.log(messages);
     let actualId = auth.currentUser.uid;
+    // console.log(actualId)
     conversation.innerHTML = ''; // Limpiamos el área de conversación antes de mostrar los mensajes
     Object.values(messages).forEach(message => {
 
@@ -138,6 +141,24 @@ function displayMessages(messages) {
         } else {
             clase = 'recibido';
         }
+
+    //     async function getTheNameOfTheUser(actualId) {
+    //     const docRef = doc(dbfirestore, "roles_by_user", actualId);
+    //     const docSnap = await getDoc(docRef);
+
+    //     if (docSnap.exists()) {
+    //         // console.log("Existe:", docSnap.data());
+    //         const {email} = docSnap.data();
+    //         // console.log(nombre, apellido);
+    //         return email;
+    //     } else {
+    //         console.log("No existe");
+    //     }
+    // }
+
+
+
+
         // actualId == message.userId ? 'enviado' : 'recibido';
 
         conversation.innerHTML += `
@@ -170,69 +191,44 @@ async function getChatMessagesFromId(uid){
 
 
 
-onAuthStateChanged (auth , (user) =>{
+onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const uid = user.uid;
+                const input = form.message;
+                const collectionReal = ref(db, `/chats/${uid}`);
 
-    if(user){
+                // Obtener mensajes cuando se carga la página
+                await getChatMessagesFromId(uid);
 
-        const uid = user.uid;
-        console.log(user)
-        const input = form.message;
-        const collectionReal =ref(db, `/chats/${uid}`);
+                form.addEventListener('submit', async function (e) {
+                    e.preventDefault();
 
+                    const newMessage = push(collectionReal);
+                    
+                    try {
+                        await set(newMessage, {
+                            userId: user.uid,
+                            message: input.value,
+                            creatAt: Date.now()
+                        });
 
-        getChatMessagesFromId(uid);
-    // onValue(messagesQuery, (snapshot) => {
-
-    //     // console.log(snapshot);
-    //     if (snapshot.exists()) {
-    //         const messages = snapshot.val();
-    //         displayMessages(messages, conversation);
-    //     } else {
-    //         console.log('No hay mensajes');
-    //     }
-    // });
-
-
-
-
-
-        form.addEventListener('submit', function (e) {
-            e.preventDefault()
-
-
-            const newMessage = push(collectionReal);
-
-            set(newMessage, {
-            
-
-                userId : user.uid,
-                message : input.value,
-                creatAt : Date.now()
-
-            });
-
-            conversation.innerHTML += `
-            
-            <div class="message-txt">
-                <p>El usuario: ${user.email}</p>
-                <p>Dice: ${input.value}</p>
-            </div>
-            
-            
-            `;
-                form.reset()
-            
-        })
-
-
-    }else{
-        console.log('no esta logeado');
-        window.location.href ="register.html"
-    }
-
-    
-})
-
+                        form.reset();
+                        
+                        // Actualizar los mensajes después de enviar uno nuevo
+                        try {
+                            await getChatMessagesFromId(uid);
+                        } catch (error) {
+                            console.error('Error al obtener los mensajes:', error);
+                        }
+                    } catch (error) {
+                        console.error('Error al enviar el mensaje:', error);
+                    }
+                });
+            } else {
+                console.log('No está logeado');
+                window.location.href = "register.html";
+            }
+        });
 
 </script>
 
