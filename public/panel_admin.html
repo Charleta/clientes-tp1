@@ -81,15 +81,22 @@
           <div class="mb-3">
             <label for="product-title" class="form-label">Nombre del menu</label>
             <input type="text" class="form-control" id="product-name" placeholder="menu" required>
-            <div class="invalid-feedback">
-              Por favor, ingrese el menu.
-            </div>
           </div>
-          <div class="mb-3">
+            <div class="mb-3">
             <label for="product-description" class="form-label">Descripcion</label>
             <input type="text" class="form-control" id="product-description" placeholder="Descripcion" required>
             
           </div>
+          <div class="mb-3">
+            <label for="category-title" class="form-label">Categoría</label>
+            <select class="form-select" id="category-select" required>
+                <option value="category1">Mariscos</option>
+                <option value="category2">Criollos</option>
+                <option value="category3">Otros</option>
+            </select>
+        </div>
+        
+        
           <div class="mb-3">
             <label for="product-price" class="form-label">Precio</label>
             <input type="text" class="form-control" id="product-price" placeholder="Precio" required>
@@ -185,12 +192,14 @@ const productForm = document.getElementById('product-form');
     const title = document.getElementById('product-name').value;
     const description = document.getElementById('product-description').value;
     const price = parseFloat(document.getElementById('product-price').value);
-
+    const categorySelect = document.getElementById('category-select');
+    const selectedCategory = categorySelect.value;
 
    
   const docRef =  addDoc(collection(db, "menus"), {
          name: title,
         descripcion: description,
+        category:selectedCategory,
         price: price
   })
     .then((docRef) => {

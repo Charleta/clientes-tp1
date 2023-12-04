@@ -56,6 +56,15 @@
             </div>
     
             <div class="mb-3">
+                <label for="category-title" class="form-label">Categoría</label>
+                <select class="form-select" id="category-select" required>
+                    <option value="category1">Mariscos</option>
+                    <option value="category2">Criollos</option>
+                    <option value="category3">Otros</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
                 <label for="price" class="form-label">Precio:</label>
                 <input type="text" id="price" name="price" class="form-control" required>
             </div>
@@ -91,6 +100,7 @@ async function obtenerDatosDelMenu() {
 
             document.getElementById("title").value = data.name;
             document.getElementById("description").value = data.descripcion;
+            document.getElementById("category-select").value = data.category;
             document.getElementById("price").value = data.price;
         } else {
             console.log("El menu no existe.");
@@ -115,6 +125,7 @@ form.addEventListener('submit', async function(e){
        await updateDoc(docRef,{
         name: title,
         descripcion: descripcion,
+        category:selectedCategory,
         price: price,
 
         })
