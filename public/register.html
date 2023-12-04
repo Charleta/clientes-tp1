@@ -125,7 +125,8 @@ const password = document.getElementById('signup-password').value;
       const userRoleRef = doc(db, 'roles_by_user', user);
 
       setDoc(userRoleRef, {
-        role: 'student'
+        role: 'student',
+        email
       })
         .then(() => {
           console.log('Usuario creado con rol de administrador');
