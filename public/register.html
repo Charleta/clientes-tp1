@@ -57,6 +57,20 @@
               <div class="col-md-6">
                 <form id="signup-form" class="needs-validation" novalidate>
                   <div class="mb-3">
+                    <label for="signup-name" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="signup-name" placeholder="Nombre" required>
+                    <div class="invalid-feedback">
+                      Por favor, ingresa un nombre.
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="signup-lastname" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="signup-lastname" placeholder="Apellido" required>
+                    <div class="invalid-feedback">
+                      Por favor, ingresa un apellido.
+                    </div>
+                  </div>
+                  <div class="mb-3">
                     <label for="signup-email" class="form-label">Correo electrónico</label>
                     <input type="email" class="form-control" id="signup-email" placeholder="Correo electrónico" required>
                     <div class="invalid-feedback">
@@ -114,6 +128,8 @@ loginForm.addEventListener('submit', function (e) {
 
  const email = document.getElementById('signup-email').value;
 const password = document.getElementById('signup-password').value;
+const name = document.getElementById('signup-name').value;
+const lastname = document.getElementById('signup-lastname').value;
 
 
     const auth = getAuth();
@@ -126,7 +142,9 @@ const password = document.getElementById('signup-password').value;
 
       setDoc(userRoleRef, {
         role: 'student',
-        email
+        email,
+        name,
+        lastname
       })
         .then(() => {
           console.log('Usuario creado con rol de administrador');
