@@ -191,7 +191,7 @@ async function getChatMessagesFromId(uid){
 
 
 
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(auth, async (user) => {console.log(user)
             if (user) {
                 const uid = user.uid;
                 const input = form.message;
@@ -207,7 +207,7 @@ onAuthStateChanged(auth, async (user) => {
                     
                     try {
                         await set(newMessage, {
-                            userId: user.uid,
+                            userId: user.email,
                             message: input.value,
                             creatAt: Date.now()
                         });

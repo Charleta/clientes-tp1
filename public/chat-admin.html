@@ -230,7 +230,7 @@ function enviarMensaje(formulario, uid){
             if (message !== '') {
                 const messagesRef = ref(db, `/chats/${uid}`);
                 push(messagesRef, {
-                    userId: user.uid,
+                    userId: user.email,
                     message: message,
                     creatAt: new Date().toISOString() // Podrías utilizar otro formato de fecha si lo prefieres
                 });
