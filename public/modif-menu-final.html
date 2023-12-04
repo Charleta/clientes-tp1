@@ -121,6 +121,8 @@ form.addEventListener('submit', async function(e){
     const title = form.querySelector('#title').value;
     const descripcion = form.querySelector('#description').value;
     const price = form.querySelector("#price").value;
+    const selectedCategory = form.querySelector("#category-select").value;
+
     try{
        await updateDoc(docRef,{
         name: title,
