@@ -58,9 +58,9 @@
             <div class="mb-3">
                 <label for="category-title" class="form-label">Categoría</label>
                 <select class="form-select" id="category-select" required>
-                    <option value="category1">Mariscos</option>
-                    <option value="category2">Criollos</option>
-                    <option value="category3">Otros</option>
+                    <option value="Mariscos">Mariscos</option>
+                    <option value="Criollos">Criollos</option>
+                    <option value="Otros">Otros</option>
                 </select>
             </div>
             
@@ -122,7 +122,7 @@ form.addEventListener('submit', async function(e){
     const descripcion = form.querySelector('#description').value;
     const price = form.querySelector("#price").value;
     const selectedCategory = form.querySelector("#category-select").value;
-
+console.log('selector', selectedCategory)
     try{
        await updateDoc(docRef,{
         name: title,

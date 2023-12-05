@@ -139,13 +139,13 @@
                     card.classList.add("card", "col-lg-5", "col-md-6", "col-12", "mb-4", "px-lg-2");
                     const cardContent = `
                         <div class="card-body card-index">
-                            <h5 class="card-title">${data.name}</h5>
+                            <h5 class="card-title"><span>${data.name}</span></h5>
                             <p class="card-text">Descripción: ${data.description}</p>
                             <p class="card-text">Categoria: ${data.category}</p>
-                            <p class="card-text font-weight-bold">Precio: ${data.price}$</p>
+                            <p class="card-text font-weight-bold"><span> Precio:${data.price}$</span></p>
                         </div>
                         <div class="card-footer"> <!-- Agregamos un div adicional para el footer -->
-                            <a href="editar.html?id=${doc.id}" class=" btn-card-body">Pedir</a>
+                            <a href="/loginUser.html" class=" btn-card-body">Pedir</a>
                         </div>
                     `;
 

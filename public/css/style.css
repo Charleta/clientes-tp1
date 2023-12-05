@@ -35,8 +35,8 @@ body{
   }
 
   .btn {
-    min-width: 250px;
-    height: 50px;
+    max-width: 250px;
+    height: 30px;
     color: #fff;
     padding: 5px 10px;
     font-weight: bold;
@@ -49,7 +49,7 @@ body{
     border: none;
     background: #fe335c;
     box-shadow: 0 5px #e90331;
-    font-size: 26px;
+    font-size: 18px;
     
   }
   .btn:hover {
@@ -94,9 +94,16 @@ box-shadow: rgba(250, 250, 250, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0
   margin-bottom: 50px;
 }
 
+.card-body span {
+
+  font-weight: bold;
+  font-size: 24px;
+
+}
+
 .card-body h5{
 
-  color:white
+  color:#f0eae1
 }
  .card-text {
   
@@ -284,4 +291,41 @@ text-transform: capitalize;
   border-radius: 15px;
   padding: 5px;
   color: black;
+}
+
+
+.btn-register {
+  min-width: 250px;
+  height: 50px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  background: #2E8B57;
+  box-shadow: 0 5px #186136;
+  font-size: 26px;
+  
+}
+.btn-register:hover {
+  box-shadow: 0 3px #186136;
+  top: 1px;
+  background-color: #186136;
+  color: #fff;
+}
+.btn-register:active {
+  box-shadow: 0 0 #186136;
+  top: 5px;
+  
+}
+
+.conteiner-btns-login-user{
+display: flex;
+
+
 }

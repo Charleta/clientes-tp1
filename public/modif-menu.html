@@ -74,10 +74,10 @@ async function mostrarDatos(){
             card.classList.add("card","col", "m-4");
              const cardContent = `
         <div class="card-body">
-            <h5 class="card-title">${data.name}</h5>
-            <p class="card-text">Descripción: ${data.descripcion}</p>
-            <p class="card-text">Categoria: ${data.category}</p>
-            <p class="card-text font-weight-bold">Precio: ${data.price}</p>
+            <h5 class="card-title"><span>${data.name}</span></h5>
+            <p class="card-text"><span>Descripción:</span> ${data.descripcion}</p>
+            <p class="card-text"><span>Categoria: </span>${data.category}</p>
+            <p class="card-text font-weight-bold"><span>Precio: </span>${data.price}</p>
             <a href="modif-menu-final.html?id=${doc.id}" class="btn  btn-sm">Editar</a>
         </div>
     `;
