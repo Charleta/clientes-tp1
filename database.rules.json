@@ -1,6 +1,6 @@
 {
   "rules": {
-    ".read": "now < 1672536000000",  //  2024-11-28
-    ".write": "now < 1704072000000" // 2025-11-28
+    ".read": "now < 1904072000000", // Permite la lectura hasta una fecha futura (31 de diciembre de 2030)
+    ".write": "now < 1904072000000" // Permite la escritura hasta una fecha futura (31 de diciembre de 2030)
   }
 }

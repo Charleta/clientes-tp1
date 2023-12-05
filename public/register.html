@@ -141,7 +141,7 @@ const lastname = document.getElementById('signup-lastname').value;
       const userRoleRef = doc(db, 'roles_by_user', user);
 
       setDoc(userRoleRef, {
-        role: 'student',
+        role: 'user',
         email,
         name,
         lastname
