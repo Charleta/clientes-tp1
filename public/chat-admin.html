@@ -59,9 +59,9 @@
   </div>
 
   <div class="container container-general-chat" >
-      <div id="chatList">AQUI VAN LOS CHATS</div>
 
                 <div class="container container-message">  
+                    <div id="chatList" style="display: block;">AQUI VAN LOS CHATS</div>
 
                     <div id="conversation"></div>
                 </div>
@@ -100,6 +100,7 @@
 
 <script type="module">
 
+
 import app from './config/config.js';
 import { 
     getAuth, 
@@ -116,14 +117,6 @@ import {
     onValue 
 } from 'https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js';
 
-
-import { 
-    getFirestore, 
-    doc, 
-    getDoc 
-} from 'https://www.gstatic.com/firebasejs/10.3.0/firebase-firestore.js';
-
-const dbfirestore = getFirestore(app);
 const db = getDatabase(app);
 const auth = getAuth(app);
 const conversation = document.getElementById('conversation');
@@ -134,22 +127,24 @@ const chatList = document.getElementById('chatList');
 chatForm.style.display = 'none';
 
 // Función para mostrar los mensajes
+
 function displayMessages(messages) {
-    // console.log(messages);
-    let actualId = auth.currentUser.email;
+    
+    let actualId = auth.currentUser.uid;
+    console.log(auth.currentUser);
     conversation.innerHTML = ''; // Limpiamos el área de conversación antes de mostrar los mensajes
-    Object.values(messages).forEach(message => {
-// console.log(message.userId)
-        let clase = '';
-        if (actualId == message.userId) {
-            clase = 'enviado';
-        } else {
-            clase = 'recibido';
-        }
+    Object.values(messages).forEach(message => { // Aca recorro todos los mensajes del usuario para captarlos individualmente
+    
+        // let clase = '';
+        // if (actualId == message.userId) {
+        //     clase = 'enviado';
+        // } else {
+        //     clase = 'recibido';
+        // }
         // actualId == message.userId ? 'enviado' : 'recibido';
 
         conversation.innerHTML += `
-            <div class="message-txt ${clase}">
+            <div class="message-txt">
                 <p>Usuario: ${message.userId}</p>
                 <p>Dice: ${message.message}</p>
             </div>
@@ -161,30 +156,33 @@ function displayMessages(messages) {
 // Escuchamos cambios en los mensajes cuando el usuario inicia sesión
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // console.log('Hay usuario autenticado');
+
         const messagesRef = ref(db, '/chats');
         const messagesQuery = query(messagesRef, orderByChild('userId'));
+       
         // let idUsers = [];
 
         let usuarioActual = user.uid;
-        // console.log('user', usuarioActual);
-        // console.log(messagesQuery);
 
-        onValue(messagesQuery,async (snapshot) => {
+        onValue(messagesQuery, (snapshot) => {
             // if (snapshot.exists()) {
                 chatList.innerHTML = '';
-                const messages = snapshot.val();
-                
+                const messages = snapshot.val(); // me trae los nombres de los chats
+                //  console.log(messages);
                 for (const message in messages) {
-                    // console.log(message);
-                    // console.log(message.userId);
+
+                    //console.log(message); // message es el nombre individual de los message
+                    
                     let div = document.createElement('div');
-                    div.innerHTML =await getName(message);
+                    div.innerHTML = message;
                     chatList.appendChild(div);
 
-                    div.addEventListener('click', () => {
+                    div.addEventListener('click', () => { // Una vez creado el div, le doy la funcion click para que
+                                                          // libere las funciones de acuerdo a los nomrbes
+
                         getChatMessagesFromId(message);
                         enviarMensaje(chatForm, message);
+
                     });
 
 
@@ -206,17 +204,19 @@ onAuthStateChanged(auth, (user) => {
 
 
 
-async function getChatMessagesFromId(uid){
-    const messagesRef = ref(db, `/chats/${uid}`);
+async function getChatMessagesFromId(message){
+    const messagesRef = ref(db, `/chats/${message}`);
+    
     const messagesQuery = query(messagesRef, orderByChild('timestamp'));
     // console.log(messagesQuery);
     
     onValue(messagesQuery, (snapshot) => {
 
-        // console.log(snapshot);
+       
         if (snapshot.exists()) {
             const messages = snapshot.val();
             displayMessages(messages);
+            // console.log(messages);
         } else {
             console.log('No hay mensajes');
         }
@@ -225,21 +225,26 @@ async function getChatMessagesFromId(uid){
 
 
 
-function enviarMensaje(formulario, uid){
+function enviarMensaje(formulario, message){
 
+    
+    
     // Manejamos el envío de mensajes
     formulario.addEventListener('submit', function (e) {
         e.preventDefault();
     
         const user = auth.currentUser;
+        const userEmailAdmin = auth.currentUser.email;
+        console.log(userEmailAdmin)
         if (user) {
-            const message = chatTextarea.value.trim();
+            const messageText = chatTextarea.value.trim();
     
-            if (message !== '') {
-                const messagesRef = ref(db, `/chats/${uid}`);
+            if (messageText !== '') {
+                const messagesRef = ref(db, `/chats/${message}`);
+                // console.log(user.email)
                 push(messagesRef, {
-                    userId: user.email,
-                    message: message,
+                    userId: userEmailAdmin,
+                    message: messageText,
                     creatAt: new Date().toISOString() // Podrías utilizar otro formato de fecha si lo prefieres
                 });
     
@@ -253,22 +258,12 @@ function enviarMensaje(formulario, uid){
     });
 }
 
-async function getName(id) {
-    const docRef = doc(dbfirestore, "roles_by_user", id);
-    const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-        const {name, lastname, email} = docSnap.data();
-        return name;
-    } else {
-        console.log("No existe");
-    }
-}
+
 
 
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
