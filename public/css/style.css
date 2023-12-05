@@ -242,6 +242,15 @@ color: black;
 margin-top: 5px;
 }
 
+#chatList > div{
+background-color: #d3d3d3;
+border-radius: 20px;
+padding: 5px;
+margin-top: 2px;
+color: black;
+text-transform: capitalize;
+
+}
 #conversation {
   display: grid;
   grid-auto-rows: min-content;
@@ -262,8 +271,17 @@ margin-top: 5px;
 
 .message-txt.recibido{
   text-align: left ;
+  background-color: #ADD8E6 ; 
+  border-radius: 15px;
+  padding: 5px;
+  color: black;
+ 
 }
 
 .message-txt.enviado{
   text-align: right ;
+  background-color: #2E8B57;
+  border-radius: 15px;
+  padding: 5px;
+  color: black;
 }

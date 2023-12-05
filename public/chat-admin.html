@@ -60,8 +60,9 @@
 
   <div class="container container-general-chat" >
 
+                    <div id="chatList">AQUI VAN LOS CHATS</div>
+
                 <div class="container container-message">  
-                    <div id="chatList" style="display: block;">AQUI VAN LOS CHATS</div>
 
                     <div id="conversation"></div>
                 </div>
@@ -130,26 +131,35 @@ chatForm.style.display = 'none';
 
 function displayMessages(messages) {
     
-    let actualId = auth.currentUser.uid;
-    console.log(auth.currentUser);
+    let actualId = auth.currentUser.email;
+    console.log(actualId);
     conversation.innerHTML = ''; // Limpiamos el área de conversación antes de mostrar los mensajes
     Object.values(messages).forEach(message => { // Aca recorro todos los mensajes del usuario para captarlos individualmente
-    
-        // let clase = '';
-        // if (actualId == message.userId) {
-        //     clase = 'enviado';
-        // } else {
-        //     clase = 'recibido';
-        // }
+    console.log(message.userId)
+        let clase = '';
+        if (actualId == message.userId) {
+            clase = 'enviado';
+        } else {
+            clase = 'recibido';
+        };
+        let usuario = '';
+        if (actualId == message.userId) {
+            usuario = 'Soporte';
+        } else {
+            usuario = 'Usuario';
+        };
+        
         // actualId == message.userId ? 'enviado' : 'recibido';
 
         conversation.innerHTML += `
-            <div class="message-txt">
-                <p>Usuario: ${message.userId}</p>
+            <div class="message-txt ${clase} ">
+                <p>${usuario}: ${message.userId}</p>
                 <p>Dice: ${message.message}</p>
             </div>
         `;
     });
+    document.getElementById("conversation").scrollTop = document.getElementById("conversation").scrollHeight;
+
     chatForm.style.display = 'flex';
 }
 

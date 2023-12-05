@@ -161,6 +161,46 @@ import {
   }
 };
 
+
+
+function displayMessages(messages, data) {
+    
+    let actualId = auth.currentUser;
+    const nombre=data.name;
+    console.log('actualid', nombre);
+    conversation.innerHTML = ''; // Limpiamos el área de conversación antes de mostrar los mensajes
+    Object.values(messages).forEach(message => { // Aca recorro todos los mensajes del usuario para captarlos individualmente
+    console.log('message',message.userId)
+        let clase = '';
+        if (nombre == message.userId) {
+            clase = 'enviado';
+        } else {
+            clase = 'recibido';
+        };
+        let usuario = '';
+        if (actualId == message.userId) {
+            usuario = 'Soporte';
+        } else {
+            usuario = 'Usuario';
+        };
+        
+        // actualId == message.userId ? 'enviado' : 'recibido';
+
+        conversation.innerHTML += `
+            <div class="message-txt ${clase} ">
+                <p>${usuario}: ${message.userId}</p>
+                <p>Dice: ${message.message}</p>
+            </div>
+        `;
+    });
+    document.getElementById("conversation").scrollTop = document.getElementById("conversation").scrollHeight;
+
+    
+}
+
+
+
+
     function handleChatLogic(user,data){
 
         const conversation = document.getElementById('conversation');
@@ -185,15 +225,15 @@ import {
 
             });
 
-            conversation.innerHTML += `
+            // conversation.innerHTML += `
             
-            <div class="message-txt">
-                <p>El usuario: ${data.name}</p>
-                <p>Dice: ${input.value}</p>
-            </div>
+            // <div class="message-txt">
+            //     <p>El usuario: ${data.name}</p>
+            //     <p>Dice: ${input.value}</p>
+            // </div>
             
-            `;
-
+            // `;
+                
             form.reset();
 
         })
@@ -226,7 +266,9 @@ import {
                 </div>
         `;
       });
+      displayMessages(messages, data);
     }
+    document.getElementById("conversation").scrollTop = document.getElementById("conversation").scrollHeight;
 
     console.log(messages); // Muestra los mensajes en la consola por ahora
   });
